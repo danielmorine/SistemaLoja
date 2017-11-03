@@ -17,6 +17,7 @@ namespace SistemaLoja.Models
         public DateTime Nascimento { get; set; }
         public DateTime Cadastro { get; set; }
         public string Email { get; set; }
+        public string TipoDocumentoId { get; set; }
 
         public virtual TipoDocumento TipoDocumento { get; set; }
     }

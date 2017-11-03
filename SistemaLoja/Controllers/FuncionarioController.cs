@@ -46,7 +46,7 @@ namespace SistemaLoja.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FuncionarioId,Nome,SobreNome,Salario,Comissao,Nascimento,Cadastro,Email")] Funcionario funcionario)
+        public ActionResult Create([Bind(Include = "FuncionarioId,Nome,SobreNome,Salario,Comissao,Nascimento,Cadastro,Email,TipoDocumentoId")] Funcionario funcionario)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace SistemaLoja.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FuncionarioId,Nome,SobreNome,Salario,Comissao,Nascimento,Cadastro,Email")] Funcionario funcionario)
+        public ActionResult Edit([Bind(Include = "FuncionarioId,Nome,SobreNome,Salario,Comissao,Nascimento,Cadastro,Email,TipoDocumentoId")] Funcionario funcionario)
         {
             if (ModelState.IsValid)
             {
