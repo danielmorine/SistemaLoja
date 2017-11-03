@@ -20,5 +20,9 @@ namespace SistemaLoja.Models
         }
 
         public System.Data.Entity.DbSet<SistemaLoja.Models.Produto> Produtoes { get; set; }
+
+        public System.Data.Entity.DbSet<SistemaLoja.Models.Funcionario> Funcionarios { get; set; }
+
+        public System.Data.Entity.DbSet<SistemaLoja.Models.TipoDocumento> TipoDocumentoes { get; set; }
     }
 }
