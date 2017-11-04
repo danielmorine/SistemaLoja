@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -37,6 +38,9 @@ namespace SistemaLoja.Models
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Cadastro { get; set; }
+
+        [NotMapped]
+        public int Idade { get { return DateTime.Now.Year - Nascimento.Year; } }
 
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]

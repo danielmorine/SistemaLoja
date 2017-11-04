@@ -16,5 +16,8 @@ namespace SistemaLoja.Models
         public string Descricao { get; set; }
 
         public DateTime UltimaCompra { get; set; }
+
+        public virtual ICollection<FornecedorProduto> FornecedorProduto { get; set; }
+
     }
 }
