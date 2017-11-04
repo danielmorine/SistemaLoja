@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace SistemaLoja.Models
 {
-    public class Fornecedor
+    public class Customizar
     {
         [Key]
-        public int FornecedorId { get; set; }
+        public int CustomizarId { get; set; }
 
         [Display(Name = "Nome")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
@@ -27,6 +26,13 @@ namespace SistemaLoja.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        public virtual ICollection<FornecedorProduto>FornecedorProduto { get; set; }
+        [Display(Name = "Documento")]
+        public string Documento { get; set; }
+
+        public int TipoDocumentoId { get; set; }
+
+        public virtual TipoDocumento TipoDocumento { get; set; }
+        public virtual ICollection<Ordem> Ordem { get; set; }
+
     }
 }
