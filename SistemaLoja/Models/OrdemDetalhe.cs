@@ -31,6 +31,6 @@ namespace SistemaLoja.Models
         public float Quantidade { get; set; }
 
         public virtual Ordem Ordem { get; set; }
-
+        public virtual Produto Produto { get; set; }
     }
 }

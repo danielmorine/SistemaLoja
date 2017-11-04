@@ -17,7 +17,6 @@ namespace SistemaLoja.Models
 
         [Display(Name = "Preço")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
-        [DataType(DataType.Currency)]
         [DisplayFormat(DataFormatString = "{0,C2}", ApplyFormatInEditMode = false)]
         public decimal Preco { get; set; }
 
@@ -26,7 +25,7 @@ namespace SistemaLoja.Models
         [DisplayFormat(DataFormatString = "{0,N2}", ApplyFormatInEditMode = false)]
         public float Estoque { get; set; }
 
-        [Display(Name = "Estoque")]
+        [Display(Name = "Descricao")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
         public string Descricao { get; set; }
 
@@ -41,6 +40,7 @@ namespace SistemaLoja.Models
         public string Comentario { get; set; }
 
         public virtual ICollection<FornecedorProduto> FornecedorProduto { get; set; }
+        public virtual ICollection<OrdemDetalhe> OrdensDetalhes { get; set; }
 
     }
 }

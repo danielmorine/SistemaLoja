@@ -9,6 +9,6 @@ namespace SistemaLoja.ViewModels
     public class OrdemView
     {
         public Customizar Customizar { get; set; }
-        public List<Produto> Produto { get; set; }
+        public List<ProdutoOrdem> ProdutoOrdem { get; set; }
     }
 }

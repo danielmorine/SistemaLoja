@@ -46,7 +46,7 @@ namespace SistemaLoja.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProdutoId,Nome,Preco,Estoque,Descricao,UltimaCompra")] Produto produto)
+        public ActionResult Create([Bind(Include = "ProdutoId,Nome,Preco,Estoque,Descricao,UltimaCompra,Comentario")] Produto produto)
         {
             if (ModelState.IsValid)
             {
@@ -78,12 +78,20 @@ namespace SistemaLoja.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProdutoId,Nome,Preco,Estoque,Descricao,UltimaCompra")] Produto produto)
+        public ActionResult Edit([Bind(Include = "ProdutoId,Nome,Preco,Estoque,Descricao,UltimaCompra,Comentario")] Produto produto)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(produto).State = EntityState.Modified;
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+
+                }
+                catch (Exception ex)
+                {
+
+                                    }
                 return RedirectToAction("Index");
             }
             return View(produto);
