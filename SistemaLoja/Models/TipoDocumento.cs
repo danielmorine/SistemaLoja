@@ -10,6 +10,9 @@ namespace SistemaLoja.Models
     {
         [Key]
         public int TipoDocumentoId { get; set; }
+        [Display(Name = "Tipo de Documento")]
+        
+
         public string Descricao { get; set; }
 
         public virtual ICollection<Funcionario>Funcionarios { get; set; }
