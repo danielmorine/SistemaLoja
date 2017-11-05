@@ -11,30 +11,30 @@ namespace SistemaLoja.Models
         [Key]
         public int ProdutoId { get; set; }
 
-        [Display(Name = "Primeiro nome")]
+        [Display(Name = "Nome do Produto")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
         public string Nome { get; set; }
 
         [Display(Name = "Preço")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
-        [DisplayFormat(DataFormatString = "{0,C2}", ApplyFormatInEditMode = false)]
+       // [DisplayFormat(DataFormatString = "{0,C2}", ApplyFormatInEditMode = false)]
         public decimal Preco { get; set; }
 
         [Display(Name = "Estoque")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
-        [DisplayFormat(DataFormatString = "{0,N2}", ApplyFormatInEditMode = false)]
+        //[DisplayFormat(DataFormatString = "{0,N2}", ApplyFormatInEditMode = false)]
         public float Estoque { get; set; }
 
         [Display(Name = "Descricao")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
         public string Descricao { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
+      //  [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+       // [DataType(DataType.Date)]
         [Display(Name = "Ultima compra")]
         public DateTime UltimaCompra { get; set; }
 
-        [Display(Name = "Estoque")]
+        [Display(Name = "Comentario")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
         [DataType(DataType.MultilineText)]
         public string Comentario { get; set; }

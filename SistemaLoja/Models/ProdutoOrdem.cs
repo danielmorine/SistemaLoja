@@ -10,14 +10,14 @@ namespace SistemaLoja.Models
     {
         [Display(Name = "Quantidade")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
-        [DataType(DataType.Currency)]
-        [DisplayFormat(DataFormatString = "{0,N2}", ApplyFormatInEditMode = false)]
+       // [DataType(DataType.Currency)]
+        //[DisplayFormat(DataFormatString = "{0,N2}", ApplyFormatInEditMode = false)]
         public float Quantidade { get; set; }
 
         [Display(Name = "Valor")]
         [Required(ErrorMessage = "Você precisa entrar com {0}")]
-        [DataType(DataType.Currency)]
-        [DisplayFormat(DataFormatString = "{0,Co2}", ApplyFormatInEditMode = false)]
+      //  [DataType(DataType.Currency)]
+        //[DisplayFormat(DataFormatString = "{0,C2}", ApplyFormatInEditMode = false)]
         public decimal Valor { get { return Preco * (decimal)Quantidade; } }
     }
 }
