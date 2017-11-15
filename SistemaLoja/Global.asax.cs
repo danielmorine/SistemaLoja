@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SistemaLoja.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -17,11 +20,61 @@ namespace SistemaLoja
         protected void Application_Start()
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<Models.SistemaLojaContext, Migrations.Configuration>());
+            ApplicationDbContext db = new ApplicationDbContext();
+            CriarRoles(db);
+            AddPermissoesSuperUsuario(db);
+            db.Dispose();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        private void AddPermissoesSuperUsuario(ApplicationDbContext db)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            var user = userManager.FindByName("contato.danielharo@gmail.com");
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+
+
+        }
+
+        private void SuperUsuario(ApplicationDbContext db)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            var user = userManager.FindByName("contato.danielharo@gmail.com");
+
+            if( user == null )
+            {
+                user = new ApplicationUser
+                {
+                    UserName = "contato.danielharo@gmail.com",
+                    Email = "contato.danelharo@gmail.com"
+                };
+                userManager.Create(user, "#@!Jrtech473");
+            }
+        }
+        private void CriarRoles(ApplicationDbContext db)
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+
+            if (!roleManager.RoleExists("View"))
+            {
+                roleManager.Create(new IdentityRole("View"));
+            }
+            if (!roleManager.RoleExists("Create"))
+            {
+                roleManager.Create(new IdentityRole("Create"));
+            }
+            if (!roleManager.RoleExists("Edit"))
+            {
+                roleManager.Create(new IdentityRole("Edit"));
+            }
+            if (!roleManager.RoleExists("Delete"))
+            {
+                roleManager.Create(new IdentityRole("Delete"));
+            }
         }
     }
 }

@@ -67,33 +67,68 @@ namespace SistemaLoja.Controllers
                 list.Add(new Customizar { CustomizarId = 0, Nome = "[Selecione um Cliente]" });
                 list = list.OrderBy(c => c.NomeCompleto).ToList();
                 ViewBag.CustomizarId = new SelectList(list, "CustomizarId", "NomeCompleto");
-                ViewBag.Error = "Selecione um cliente";
+                ViewBag.Error = "Selecione um Produto";
                 return View(ordemView);
             }
-            var ordem = new Ordem
-            {
-                CustomizarId = customizarId,
-                OrdemData = DateTime.Now,
-                OrdemStatus = OrdemStatus.Criada
-            };
 
-            db.Ordem.Add(ordem);
-            db.SaveChanges();
-
-            var ordemId = db.Ordem.ToList().Select(o => o.OrdemId).Max();
-            foreach (var item in ordemView.Produtos)
+            int ordemId = 0;
+            using (var transaction = db.Database.BeginTransaction())
             {
-                var ordemDetalhes = new OrdemDetalhe
+                try
                 {
-                    Descricao = item.Descricao,
-                    Quantidade = item.Quantidade,
-                    Preco = item.Preco
-                };
-            }
+                    var ordem = new Ordem
+                    {
+                        CustomizarId = customizarId,
+                        OrdemData = DateTime.Now,
+                        OrdemStatus = OrdemStatus.Criada
+                    };
+
+                    db.Ordem.Add(ordem);
+                    db.SaveChanges();
+
+                    ordemId = db.Ordem.ToList().Select(o => o.OrdemId).Max();
+                    foreach (var item in ordemView.Produtos)
+                    {
+                        var ordemDetalhes = new OrdemDetalhe
+                        {
+                            ProdutoId = item.ProdutoId,
+                            Descricao = item.Descricao,
+                            Quantidade = item.Quantidade,
+                            Preco = item.Preco,
+                            OrdemId = ordemId
+                        };
+                        db.OrdemDetalhe.Add(ordemDetalhes);
+                        db.SaveChanges();
+                    }
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    ViewBag.Error = "Error" + ex.Message;
+                    return View(ordemView);
+                    
+               }
+            
+        }
+            ViewBag.Mensagem = string.Format("Ordem: {0}, foi salva com sucesso", ordemId);
+
+
+            list = db.Customizars.ToList();
+            list.Add(new Customizar { CustomizarId = 0, Nome = "[Selecione um Cliente]" });
+            list = list.OrderBy(c => c.NomeCompleto).ToList();
+            ViewBag.CustomizarId = new SelectList(list, "CustomizarId", "NomeCompleto");
+            ViewBag.Error = "Selecione um cliente";
+
+            ordemView = new OrdemView();
+            ordemView.Customizar = new Customizar();
+            ordemView.Produtos = new List<ProdutoOrdem>();
+            Session["ordemView"] = ordemView;
+
             return View(ordemView);
 
         }
-
+        
         public ActionResult AddProduto()
         {
             var list = db.Produtoes.ToList();
@@ -145,9 +180,7 @@ namespace SistemaLoja.Controllers
 
             produtoOrdem = ordemView.Produtos.Find(p => p.ProdutoId == produtoId);
             if(produtoOrdem == null )
-            {
-
-            
+            {           
 
             produtoOrdem = new ProdutoOrdem
             {
@@ -163,11 +196,9 @@ namespace SistemaLoja.Controllers
                 produtoOrdem.Quantidade += float.Parse(Request["Quantidade"]);
             }
             var listC = db.Customizars.ToList();
-            listC.Add(new Customizar { CustomizarId = 0, Nome = "[Selecione o tipo de Documento]" });
+            //listC.Add(new Customizar { CustomizarId = 0, Nome = "[Selecione o tipo de Documento]" });
             listC = listC.OrderBy(c => c.NomeCompleto).ToList();
             ViewBag.CustomizarId = new SelectList(listC, "CustomizarId", "NomeCompleto");
-
-
             return View("NovaOrdem", ordemView);
 
 
