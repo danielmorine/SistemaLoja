@@ -10,18 +10,19 @@ using SistemaLoja.Models;
 
 namespace SistemaLoja.Controllers
 {
-    [Authorize(Roles = "View")]
+    [Authorize(Users = "contato.danielharo@gmail.com")]
     public class ProdutoController : Controller
     {
         private SistemaLojaContext db = new SistemaLojaContext();
 
-        // GET: Produto
+        [Authorize(Roles = "View")]
         public ActionResult Index()
         {
             return View(db.Produtoes.ToList());
         }
 
-        // GET: Produto/Details/5
+        [Authorize(Roles = "View")]
+
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,7 +37,7 @@ namespace SistemaLoja.Controllers
             return View(produto);
         }
 
-        // GET: Produto/Create
+        [Authorize(Roles = "Create")]
         public ActionResult Create()
         {
             return View();
@@ -59,7 +60,8 @@ namespace SistemaLoja.Controllers
             return View(produto);
         }
 
-        // GET: Produto/Edit/5
+        [Authorize(Roles = "Edit")]
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -98,7 +100,8 @@ namespace SistemaLoja.Controllers
             return View(produto);
         }
 
-        // GET: Produto/Delete/5
+        [Authorize(Roles = "Delete")]
+
         public ActionResult Delete(int? id)
         {
             if (id == null)

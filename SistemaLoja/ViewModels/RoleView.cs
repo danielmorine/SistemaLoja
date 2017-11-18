@@ -14,9 +14,5 @@ namespace SistemaLoja.ViewModels
         public string Name { get; set; }
 
         //capturar os titulos da classe
-        public RoleView Role { get; set; }
-        
-        //
-        public List<RoleView>Roles { get; set; }
-    }
+            }
 }

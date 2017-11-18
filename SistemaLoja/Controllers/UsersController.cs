@@ -39,6 +39,27 @@ namespace SistemaLoja.Controllers
             return View(usersView);
         }
     
+        public ActionResult Roles(string userId)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            var users = userManager.Users.ToList();
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            var roles = roleManager.Roles.ToList();
+
+            //fará a verificação se o id é o mesmo que tem no id
+            var user = users.Find(u => u.Id == userId);
+
+            var userView = new UserView
+            {
+                //lista de informações
+                Email = user.Email,
+                Nome = user.UserName,
+                UserId = user.Id,
+                Roles = new List<RoleView>()
+            };
+
+        }
     //ABRIR E FECHAR CONEXÃO
 
     protected override void Dispose(bool disposing)

@@ -22,6 +22,7 @@ namespace SistemaLoja
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<Models.SistemaLojaContext, Migrations.Configuration>());
             ApplicationDbContext db = new ApplicationDbContext();
             CriarRoles(db);
+            SuperUsuario(db);
             AddPermissoesSuperUser(db);
             db.Dispose();
             AreaRegistration.RegisterAllAreas();
@@ -65,7 +66,7 @@ namespace SistemaLoja
                 user = new ApplicationUser
                 {
                     UserName = "contato.danielharo@gmail.com",
-                    Email = "contato.danelharo@gmail.com"
+                    Email = "contato.danielharo@gmail.com"
                 };
                 userManager.Create(user, "#@!Jrtech473");
             }
