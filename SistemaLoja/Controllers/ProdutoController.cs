@@ -10,6 +10,7 @@ using SistemaLoja.Models;
 
 namespace SistemaLoja.Controllers
 {
+    [Authorize(Roles = "View")]
     public class ProdutoController : Controller
     {
         private SistemaLojaContext db = new SistemaLojaContext();
@@ -88,7 +89,7 @@ namespace SistemaLoja.Controllers
                     db.SaveChanges();
 
                 }
-                catch (Exception ex)
+                catch (Exception Ex)
                 {
 
                                     }
@@ -122,6 +123,9 @@ namespace SistemaLoja.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        //ABRIR E FECHAR CONEXÃO
 
         protected override void Dispose(bool disposing)
         {

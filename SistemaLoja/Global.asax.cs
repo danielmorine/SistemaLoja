@@ -22,7 +22,7 @@ namespace SistemaLoja
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<Models.SistemaLojaContext, Migrations.Configuration>());
             ApplicationDbContext db = new ApplicationDbContext();
             CriarRoles(db);
-            AddPermissoesSuperUsuario(db);
+            AddPermissoesSuperUser(db);
             db.Dispose();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
@@ -31,13 +31,28 @@ namespace SistemaLoja
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        private void AddPermissoesSuperUsuario(ApplicationDbContext db)
+        private void AddPermissoesSuperUser(ApplicationDbContext db)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var user = userManager.FindByName("contato.danielharo@gmail.com");
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
 
-
+            if(!userManager.IsInRole(user.Id, "View"))
+            {
+                userManager.AddToRole(user.Id, "View");
+            }
+            if (!userManager.IsInRole(user.Id, "Create"))
+            {
+                userManager.AddToRole(user.Id, "Create");
+            }
+            if (!userManager.IsInRole(user.Id, "Edit"))
+            {
+                userManager.AddToRole(user.Id, "Edit");
+            }
+            if (!userManager.IsInRole(user.Id, "Delete"))
+            {
+                userManager.AddToRole(user.Id, "Delete");
+            }
         }
 
         private void SuperUsuario(ApplicationDbContext db)
