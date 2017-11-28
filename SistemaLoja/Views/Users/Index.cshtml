@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Configurações de permissões</h2>
+<h2>Lista de usuários</h2>
 
 <table class="table">
     <tr>
@@ -29,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.ActionLink("Permissões", "Role", new { id = item.UserId }) |
+                @Html.ActionLink("Permissões", "Role", new { userId = item.UserIdUserId }) |
             </td>
         </tr>
     }
