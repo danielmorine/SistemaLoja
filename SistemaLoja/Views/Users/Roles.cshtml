@@ -18,7 +18,7 @@
                 @Html.DisplayFor(modelItem => Model.Roles[i].Name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { user = Model, roleId = Model.Roles[i].RoleId }) |
+                @Html.ActionLink("Deletar", "Delete", new { userId = Model.UserId, roleId = Model.Roles[i].RoleId }) |
                 
             </td>
         </tr>

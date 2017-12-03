@@ -10,121 +10,110 @@ using SistemaLoja.Models;
 
 namespace SistemaLoja.Controllers
 {
-    [Authorize(Roles = "View")]
-    public class ProdutoController : Controller
+    public class CategoriaController : Controller
     {
         private SistemaLojaContext db = new SistemaLojaContext();
 
-        [Authorize(Roles = "View")]
+        // GET: Categoria
         public ActionResult Index()
         {
-            return View(db.Produtoes.ToList());
+            return View(db.Categorias.ToList());
         }
 
-        [Authorize(Roles = "View")]
-
+        // GET: Categoria/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produto produto = db.Produtoes.Find(id);
-            if (produto == null)
+            Categoria categoria = db.Categorias.Find(id);
+            if (categoria == null)
             {
                 return HttpNotFound();
             }
-            return View(produto);
+            return View(categoria);
         }
 
-        [Authorize(Roles = "Create")]
+        // GET: Categoria/Create
         public ActionResult Create()
         {
             return View();
         }
+
+        // POST: Categoria/Create
+        // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
+        // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProdutoId,Nome,Preco,Estoque,Descricao,UltimaCompra,Comentario")] Produto produto)
+        public ActionResult Create([Bind(Include = "CategoriaId,Descricao")] Categoria categoria)
         {
             if (ModelState.IsValid)
             {
-                db.Produtoes.Add(produto);
+                db.Categorias.Add(categoria);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(produto);
+            return View(categoria);
         }
 
-        [Authorize(Roles = "Edit")]
-
+        // GET: Categoria/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produto produto = db.Produtoes.Find(id);
-            if (produto == null)
+            Categoria categoria = db.Categorias.Find(id);
+            if (categoria == null)
             {
                 return HttpNotFound();
             }
-            return View(produto);
+            return View(categoria);
         }
 
-        // POST: Produto/Edit/5
+        // POST: Categoria/Edit/5
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProdutoId,Nome,Preco,Estoque,Descricao,UltimaCompra,Comentario")] Produto produto)
+        public ActionResult Edit([Bind(Include = "CategoriaId,Descricao")] Categoria categoria)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(produto).State = EntityState.Modified;
-                try
-                {
-                    db.SaveChanges();
-
-                }
-                catch (Exception Ex)
-                {
-
-                                    }
+                db.Entry(categoria).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(produto);
+            return View(categoria);
         }
 
-        [Authorize(Roles = "Delete")]
-
+        // GET: Categoria/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produto produto = db.Produtoes.Find(id);
-            if (produto == null)
+            Categoria categoria = db.Categorias.Find(id);
+            if (categoria == null)
             {
                 return HttpNotFound();
             }
-            return View(produto);
+            return View(categoria);
         }
 
-        // POST: Produto/Delete/5
+        // POST: Categoria/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Produto produto = db.Produtoes.Find(id);
-            db.Produtoes.Remove(produto);
+            Categoria categoria = db.Categorias.Find(id);
+            db.Categorias.Remove(categoria);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-
-        //ABRIR E FECHAR CONEXÃO
 
         protected override void Dispose(bool disposing)
         {

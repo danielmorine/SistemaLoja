@@ -4,8 +4,9 @@
 }
 
 <h2>Permissões do Usuário - @Model.Nome</h2>
+<h5>@ViewBag.Error</h5>>
 
-@using (Html.BeginForm("Add.Role", "Users", FormMethod.Post))
+@using (Html.BeginForm("AddRole", "Users", new { userId = Model.UserId},  FormMethod.Post))
 
 {
     @Html.AntiForgeryToken()
@@ -20,7 +21,7 @@
         </div>
         @Html.ActionLink("Voltar", "Roles", new { userId = Model.UserId }, new { @class = "btn btn-primary"})
 
-        <input type="submit" value="Add Permissão" id="AddRoles" class="btn btn-info" />
+        <input type="submit" value="Add Permissão" id="AddRole" class="btn btn-info" />
     </div>
 }
 

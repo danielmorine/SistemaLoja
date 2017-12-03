@@ -1,0 +1,42 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+//gerar formulario html usando recursos de c#!
+
+@using (Html.BeginForm())
+{
+    @Html.TextBox("txtN", 0)
+    <button id="btnCalcular">Calcular</button><br/>
+    <div id="lblMensagem">
+
+    </div>
+}
+//passar informação que é um text javascript
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#btnCalcular").on("click,", function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("JsonFatorial")',
+                    data: { n: $('#txtN').val() },
+                    datype: 'json',
+                    cache: false
+                })
+                    .success(function (data) {
+                        $("#lblMensagem").html(data.Fatorial);
+                    })
+                    .error(function (xhr, ajaxOption, throwError) {
+                        $("#lblMensagem").html(("Ocorreu um erro"));
+                    })
+                return false;
+            });
+        });
+    </script>
+    }
+

@@ -6,15 +6,7 @@
 <h2>Lista de usuários</h2>
 
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-      
-    </tr>
+   
 
     @foreach (var item in Model)
     {
@@ -29,7 +21,7 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.ActionLink("Permissões", "Role", new { userId = item.UserIdUserId }) |
+                @Html.ActionLink("Permissões", "Roles", new { userId = item.UserId }) |
             </td>
         </tr>
     }

@@ -5,6 +5,7 @@ using SistemaLoja.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -39,6 +40,62 @@ namespace SistemaLoja.Controllers
             return View(usersView);
         }
 
+        //CRIAR FUNÇÃO DE DELETAR UMA PERMISSÃO
+
+        public ActionResult Delete (string userId, string roleId)
+        {
+            if (string.IsNullOrEmpty(userId)|| string.IsNullOrEmpty(roleId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //BUSCAR USUARIOS
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            var user = userManager.Users.ToList().Find(u => u.Id == userId);
+
+            //BUSCAR PERMISSÕES
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            var role = roleManager.Roles.ToList().Find(r => r.Id == roleId);
+
+            if(userManager.IsInRole(user.Id, role.Name))
+            {
+                userManager.RemoveFromRole(userId, role.Name);
+            }
+
+            var users = userManager.Users.ToList();
+
+            //fará a verificação se o id é o mesmo que tem no id
+            var roles = roleManager.Roles.ToList();
+            var rolesView = new List<RoleView>();
+
+
+
+            foreach (var item in user.Roles)
+            {
+                role = roles.Find(r => r.Id == item.RoleId);
+                var roleView = new RoleView
+                {
+                    RoleId = role.Id,
+                    Name = role.Name
+                };
+                rolesView.Add(roleView);
+            }
+
+
+
+
+            var userView = new UserView
+            {
+                //lista de informações
+                Email = user.Email,
+                Nome = user.UserName,
+                UserId = user.Id,
+                Roles = rolesView
+            };
+            return View("Roles", userView);
+
+
+        }
+
         public ActionResult AddRole (string userId)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
@@ -66,8 +123,65 @@ namespace SistemaLoja.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddRole (string userId)
+        public ActionResult AddRole (string userId, FormCollection form)
         {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            var users = userManager.Users.ToList();
+            //fará a verificação se o id é o mesmo que tem no id
+            var user = users.Find(u => u.Id == userId);
+            var userView = new UserView
+            {
+
+                //lista de informações
+                Email = user.Email,
+                Nome = user.UserName,
+                UserId = user.Id,
+            };
+            var roleId = Request["RoleId"];
+            if(string.IsNullOrEmpty(roleId))
+            {
+                var list = roleManager.Roles.ToList();
+                list.Add(new IdentityRole { Id = "", Name = "[Selecione uma permissão]" });
+                list = list.OrderBy(c => c.Name).ToList();
+                ViewBag.RoleId = new SelectList(list, "Id", "Name");
+
+                ViewBag.Error = "Vôcê precisa selecionar uma permissão";
+            }
+
+            var roles = roleManager.Roles.ToList();
+            var role = roles.Find(r => r.Id == roleId);
+
+            if (!userManager.IsInRole(userId, role.Name))
+            {
+                userManager.AddToRole(userId, role.Name);
+
+
+                var rolesView = new List<RoleView>();
+
+
+
+                foreach (var item in user.Roles)
+                {
+                    role = roles.Find(r => r.Id == item.RoleId);
+                    var roleView = new RoleView
+                    {
+                        RoleId = role.Id,
+                        Name = role.Name
+                    };
+                    rolesView.Add(roleView);
+                }
+
+                userView = new UserView
+                {
+                    //lista de informações
+                    Email = user.Email,
+                    Nome = user.UserName,
+                    UserId = user.Id,
+                    Roles = rolesView
+                };
+            }
+                return View("Roles", userView);
 
         }
     

@@ -1,0 +1,22 @@
+﻿@model IEnumerable<SistemaLoja.Models.Categoria>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Categorias</h2>
+
+@using (Html.BeginForm())
+{
+    <button id="btnGetCategorias">Buscar Categorias</button>
+    <button id="btnGetCategoria">Buscar Categoria</button>
+    <button id="btnAddCategorias">ADD Categorias</button>
+    <button id="btnUpdateCategorias"> Editar Categorias</button>
+    <button id="btnDeleteCategorias">Deletar Categorias</button>
+
+    <input id="txtCategoria" Type="text" placeholder="Id Categoria" />
+    <input id="txtDescricao" Type="text" placeholder="Descrição" />
+    <br /><br />
+
+    <div id="lblMensagem"></div>
+}
