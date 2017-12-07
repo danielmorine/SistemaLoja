@@ -81,12 +81,104 @@
             return false;
         });
         $("#btnAddCategorias").on("click", function () {
+
+            var descricao = $("#txtDescricao").val();
+            if (descricao == "") {
+                $("#lblMensagem").html("É preciso informar a descrição");
+                return false;
+            }
+
+            var categoria = { Descricao: descricao }
+
+            $.ajax({
+
+                type: 'POST',
+                url: '/api/CategoriaAPI/',
+                data: categoria,
+                datatype: 'json',
+                cache: false,
+
+            })
+                .success(function (data) {
+                        var saida = '';
+                        saida += '<hr>Categoria Adicionada<br>';
+                        saida += '<b>Categoria ID: <b>' + data.CategoriaId + '<br>';
+                        saida += '<b>Descrição: <b>' + data.Descricao + '<br>';
+
+                        $("#lblMensagem").html(saida);
+                        
+                })
+                .error(function (xhr, ajaxOptions, throwError) {
+                    $("#lblMensagem").html("Ocorreu um erro");
+                })
             return false;
         });
         $("#btnUpdateCategorias").on("click", function () {
+
+            var descricao = $("#txtDescricao").val();
+            if (descricao == "") {
+                $("#lblMensagem").html("É preciso informar a descrição");
+                return false;
+            }
+            var categoriaId = $("#txtCategoria").val();
+            if (categoriaId == "") {
+                $("#lblMensagem").html(saida);
+                return false;
+            }
+
+            var categoria = { CategoriaId: categoriaId, Descricao: descricao }
+
+            $.ajax({
+
+                type: 'PUT',
+                url: '/api/CategoriaAPI/' + categoriaId ,
+                data: categoria,
+                datatype: 'json',
+                cache: false,
+
+            })
+                .success(function (data) {
+                    var saida = '';
+                    saida += '<hr>Categoria Editada<br>';
+                    
+
+                    $("#lblMensagem").html(saida);
+
+                })
+                .error(function (xhr, ajaxOptions, throwError) {
+                    $("#lblMensagem").html("Ocorreu um erro");
+                })
             return false;
         });
         $("#btnDeleteCategorias").on("click", function () {
+
+            var categoriaId = $("#txtCategoria").val();
+            if (categoriaId == "") {
+                $("#lblMensagem").html(saida);
+            }
+            $.ajax({
+
+                type: 'DELETE',
+                url: '/api/CategoriaAPI/' + categoriaId,
+                datatype: 'json',
+                cache: false,
+
+            })
+                .success(function (data) {
+                    if (data != null) {
+                        var saida = '';
+                        saida += '<hr><br>';
+                        saida += '<b>Categoria deletada: <b>' + data.CategoriaId + '<br>';
+                        saida += '<b>Descrição: <b>' + data.Descricao + '<br>';
+
+                        $("#lblMensagem").html(saida);
+                    } else {
+                        $("#lblMensagem").html("Esta categoria não existe");
+                    }
+                })
+                .error(function (xhr, ajaxOptions, throwError) {
+                    $("#lblMensagem").html("Ocorreu um erro");
+                })
             return false;
         });
 
