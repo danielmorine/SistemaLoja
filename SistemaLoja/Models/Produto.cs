@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -39,7 +40,11 @@ namespace SistemaLoja.Models
         [DataType(DataType.MultilineText)]
         public string Comentario { get; set; }
 
+
+        //sempre que tiver uma propriedade virtual, será necessário inserir um JsonIgnore
+        [JsonIgnore]
         public virtual ICollection<FornecedorProduto> FornecedorProduto { get; set; }
+        [JsonIgnore]
         public virtual ICollection<OrdemDetalhe> OrdensDetalhes { get; set; }
 
     }
